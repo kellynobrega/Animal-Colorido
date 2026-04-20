@@ -3,113 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jogo de Colorir</title>
-
   <style>
-    /* Estilos Gerais */
     body {
       margin: 0;
-      padding: 0;
+      padding: 20px;
       font-family: "Comic Sans MS", cursive;
-      background-color: #87CEFA; /* Fundo azul da página */
+      background-color: #ffffff; /* Fundo da página branco */
       display: flex;
       justify-content: center;
-      align-items: center;
-      min-height: 100vh;
     }
 
-    /* 🔥 CONTAINER DO MENU (COM COR DE FUNDO) */
-    .caixa-selecao {
-      background-color: #f0faff; /* Azul bem clarinho */
-      border: 5px solid #ffffff;
+    /* 🔥 ESTE É O MENU DE ESCOLHA COM FUNDO AZUL */
+    .menu-selecao {
+      background-color: #87CEFA; /* Azul Celeste */
       border-radius: 30px;
       padding: 40px;
-      width: 90%;
-      max-width: 1100px;
+      width: 100%;
+      max-width: 1000px;
       text-align: center;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
 
     h2 {
-      color: #333;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
       margin-bottom: 30px;
-      font-size: 2em;
     }
 
-    /* GRID DOS JOGOS */
-    .grade-jogos {
+    .grade {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 25px;
+      gap: 20px;
     }
 
-    /* 🔥 CARD QUADRADO (NOVO NOME PARA EVITAR CACHE) */
-    .card-quadrado {
+    /* 🔥 CARD TOTALMENTE QUADRADO */
+    .card-animal {
       background-color: white;
-      width: 100%;
-      aspect-ratio: 1 / 1; /* Garante que seja sempre um quadrado perfeito */
-      border-radius: 20px; /* Bordas amigáveis */
+      aspect-ratio: 1 / 1; 
+      border-radius: 15px; /* Bordas levemente curvas */
       overflow: hidden;
       cursor: pointer;
-      border: 6px solid #fff;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
+      border: 5px solid white;
+      transition: transform 0.3s;
       display: flex;
-      justify-content: center;
-      align-items: center;
     }
 
-    .card-quadrado:hover {
-      transform: translateY(-10px) scale(1.03);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
-      border-color: #FFD700; /* Borda amarela no hover */
+    .card-animal:hover {
+      transform: scale(1.05);
+      border-color: #FFD700;
     }
 
-    .card-quadrado img {
+    .card-animal img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Faz a imagem preencher o quadrado sem distorcer */
-      display: block;
+      object-fit: cover; /* Garante que preencha o quadrado */
+      border-radius: 0 !important; /* Força a não ser círculo */
     }
-
   </style>
 </head>
 <body>
 
-  <!-- Menu de Escolha -->
-  <div class="caixa-selecao">
+  <div class="menu-selecao">
     <h2>Escolha uma imagem para colorir:</h2>
-    
-    <div class="grade-jogos" id="gameGrid">
-      <!-- Os jogos entram aqui via JavaScript -->
-    </div>
+    <div class="grade" id="gameGrid"></div>
   </div>
 
   <script>
-    // Substitua as URLs abaixo pelas suas imagens reais
     const jogos = [
-      { nome: "Animal 1", url: "URL_DO_JOGO_1", img: "https://postimg.cc" },
-      { nome: "Animal 2", url: "URL_DO_JOGO_2", img: "https://postimg.cc" },
-      { nome: "Animal 3", url: "URL_DO_JOGO_3", img: "https://postimg.cc" },
-      { nome: "Animal 4", url: "URL_DO_JOGO_4", img: "https://postimg.cc" },
-      { nome: "Animal 5", url: "URL_DO_JOGO_5", img: "https://postimg.cc" },
-      { nome: "Animal 6", url: "URL_DO_JOGO_6", img: "https://postimg.cc" },
-      { nome: "Animal 7", url: "URL_DO_JOGO_7", img: "https://postimg.cc" },
-      { nome: "Animal 8", url: "URL_DO_JOGO_8", img: "https://postimg.cc" }
+      { nome: "Animal 1", url: "https://github.io", img: "https://postimg.cc" },
+      { nome: "Animal 2", url: "https://github.io", img: "https://postimg.cc" },
+      { nome: "Animal 3", url: "https://github.io", img: "https://postimg.cc" },
+      { nome: "Animal 4", url: "https://github.io", img: "https://postimg.cc" },
+      { nome: "Animal 5", url: "https://github.io", img: "https://postimg.cc" },
+      { nome: "Animal 6", url: "https://github.io", img: "https://postimg.cc" },
+      { nome: "Animal 7", url: "https://github.io", img: "https://postimg.cc" },
+      { nome: "Animal 8", url: "https://github.io", img: "https://postimg.cc" }
     ];
 
     const gameGrid = document.getElementById('gameGrid');
-
     jogos.forEach(jogo => {
       const card = document.createElement('div');
-      card.className = 'card-quadrado';
+      card.className = 'card-animal';
       card.innerHTML = `<img src="${jogo.img}" alt="${jogo.nome}">`;
-      card.onclick = () => {
-        window.top.location.href = jogo.url;
-      };
+      card.onclick = () => window.top.location.href = jogo.url;
       gameGrid.appendChild(card);
     });
   </script>
-
 </body>
 </html>
