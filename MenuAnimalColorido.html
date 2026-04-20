@@ -6,192 +6,109 @@
   <title>Jogo de Colorir</title>
 
   <style>
-    * { box-sizing: border-box; }
-
-    body, html {
+    /* Estilos Gerais */
+    body {
       margin: 0;
       padding: 0;
-      height: 100%;
       font-family: "Comic Sans MS", cursive;
-      overflow: hidden;
+      background-color: #87CEFA; /* Fundo azul da página */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
 
-    body.fundo-azul {
-      background-color: #87CEFA;
-    }
-
-    .background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://i.postimg.cc/0yQ5TTgJ/1.gif') no-repeat center center fixed;
-      background-size: cover;
-      z-index: -1;
-    }
-
-    body.fundo-azul .background {
-      display: none;
-    }
-
-    .tela, .menu, .jogo {
-      display: none;
-    }
-
-    .ativa {
-      display: block;
-    }
-
-    .container {
-      position: relative;
-      text-align: center;
-      height: 100vh;
-      color: black;
-    }
-
-    #startGameBtn {
-      position: absolute;
-      left: 50%;
-      top: 80%;
-      transform: translateX(-50%);
-      padding: 15px 40px;
-      font-size: 1.5em;
-      border: none;
+    /* 🔥 CONTAINER DO MENU (COM COR DE FUNDO) */
+    .caixa-selecao {
+      background-color: #f0faff; /* Azul bem clarinho */
+      border: 5px solid #ffffff;
       border-radius: 30px;
-      background-color: #FFD700;
-      cursor: pointer;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
-      70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
-    }
-
-        /* Ajuste do Container do Menu */
-    #menu {
-      background-color: #f0f9ff; /* Cor de fundo suave para o menu */
-      border-radius: 20px;
-      padding: 30px;
+      padding: 40px;
       width: 90%;
-      max-width: 1000px;
-      margin: 50px auto;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      max-width: 1100px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     }
 
-    .grid {
+    h2 {
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 2em;
+    }
+
+    /* GRID DOS JOGOS */
+    .grade-jogos {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      padding: 20px;
+      gap: 25px;
     }
 
-    /* CARD TOTALMENTE QUADRADO */
-    .thumbnail {
-      width: 180px;
-      height: 180px;
+    /* 🔥 CARD QUADRADO (NOVO NOME PARA EVITAR CACHE) */
+    .card-quadrado {
       background-color: white;
-      border-radius: 15px; /* Deixa as pontas levemente curvas, fica mais bonito */
+      width: 100%;
+      aspect-ratio: 1 / 1; /* Garante que seja sempre um quadrado perfeito */
+      border-radius: 20px; /* Bordas amigáveis */
       overflow: hidden;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      border: 4px solid white;
-      margin: auto;
-      transition: transform 0.2s;
+      border: 6px solid #fff;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .thumbnail:hover {
-      transform: scale(1.05);
-      border-color: #FFD700; /* Borda dourada ao passar o mouse */
+    .card-quadrado:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+      border-color: #FFD700; /* Borda amarela no hover */
     }
 
-    .thumbnail img {
+    .card-quadrado img {
       width: 100%;
       height: 100%;
       object-fit: cover; /* Faz a imagem preencher o quadrado sem distorcer */
-    }
-
-
-    iframe {
-      width: 100%;
-      height: 90vh;
-      border: none;
-    }
-
-    #btnVoltar {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      z-index: 1000;
-      padding: 10px 20px;
-      font-size: 1.3em;
-      border-radius: 30px;
-      border: none;
-      background-color: #FFD700;
-      cursor: pointer;
-      display: none;
-    }
-
-    #btnVoltar:hover {
-      background-color: #FFC107;
+      display: block;
     }
 
   </style>
 </head>
+<body>
 
-<body class="fundo-azul">
-
-  <div class="background"></div>
-
-  <div id="telaInicial" class="tela ativa container">
-    <button id="startGameBtn">🎮 Start Game</button>
-  </div>
-
-  <div id="menu" class="menu container">
+  <!-- Menu de Escolha -->
+  <div class="caixa-selecao">
     <h2>Escolha uma imagem para colorir:</h2>
-    <div class="grid" id="gameGrid"></div>
+    
+    <div class="grade-jogos" id="gameGrid">
+      <!-- Os jogos entram aqui via JavaScript -->
+    </div>
   </div>
-
-  <div id="areaJogo" class="jogo container">
-    <h2>Colorindo...</h2>
-    <iframe id="iframeJogo"></iframe>
-  </div>
-
-  <button id="btnVoltar">🔙 Voltar</button>
 
   <script>
+    // Substitua as URLs abaixo pelas suas imagens reais
     const jogos = [
-      { nome: "Animal 1", url: "https://kellynobrega.github.io/Meus-jogos/animal1.html", img: "https://i.postimg.cc/DwDyNnFb/1.%IMAGE_EXT%" },
-      { nome: "Animal 2", url: "https://kellynobrega.github.io/Meus-jogos/animal2.html", img: "https://i.postimg.cc/9FgW4C4H/2.%IMAGE_EXT%" },
-      { nome: "Animal 3", url: "https://kellynobrega.github.io/Meus-jogos/animal3.html", img: "https://i.postimg.cc/MTwxkGLP/3.%IMAGE_EXT%" },
-      { nome: "Animal 4", url: "https://kellynobrega.github.io/Meus-jogos/animal4.html", img: "https://i.postimg.cc/MZdw4qmb/4.%IMAGE_EXT%" },
-      { nome: "Animal 5", url: "https://kellynobrega.github.io/Meus-jogos/animal5.html", img: "https://i.postimg.cc/VkbcdMQV/5.%IMAGE_EXT%" },
-      { nome: "Animal 6", url: "https://kellynobrega.github.io/Meus-jogos/animal6.html", img: "https://i.postimg.cc/50ghZSLf/6.%IMAGE_EXT%" },
-      { nome: "Animal 7", url: "https://kellynobrega.github.io/Meus-jogos/animal7.html", img: "https://i.postimg.cc/HWZGz3T8/7.%IMAGE_EXT%" },
-      { nome: "Animal 8", url: "https://kellynobrega.github.io/Meus-jogos/animal8.html", img: "https://i.postimg.cc/Pr9gsxp1/8.%IMAGE_EXT%" }
+      { nome: "Animal 1", url: "URL_DO_JOGO_1", img: "https://postimg.cc" },
+      { nome: "Animal 2", url: "URL_DO_JOGO_2", img: "https://postimg.cc" },
+      { nome: "Animal 3", url: "URL_DO_JOGO_3", img: "https://postimg.cc" },
+      { nome: "Animal 4", url: "URL_DO_JOGO_4", img: "https://postimg.cc" },
+      { nome: "Animal 5", url: "URL_DO_JOGO_5", img: "https://postimg.cc" },
+      { nome: "Animal 6", url: "URL_DO_JOGO_6", img: "https://postimg.cc" },
+      { nome: "Animal 7", url: "URL_DO_JOGO_7", img: "https://postimg.cc" },
+      { nome: "Animal 8", url: "URL_DO_JOGO_8", img: "https://postimg.cc" }
     ];
 
     const gameGrid = document.getElementById('gameGrid');
-    const menu = document.getElementById('menu');
-    const areaJogo = document.getElementById('areaJogo');
-    const iframeJogo = document.getElementById('iframeJogo');
-    const btnVoltar = document.getElementById('btnVoltar');
 
     jogos.forEach(jogo => {
-      const thumb = document.createElement('div');
-      thumb.className = 'thumbnail';
-      thumb.innerHTML = `<img src="${jogo.img}" alt="${jogo.nome}">`;
-      thumb.onclick = () => window.top.location.href = jogo.url;
-      gameGrid.appendChild(thumb);
+      const card = document.createElement('div');
+      card.className = 'card-quadrado';
+      card.innerHTML = `<img src="${jogo.img}" alt="${jogo.nome}">`;
+      card.onclick = () => {
+        window.top.location.href = jogo.url;
+      };
+      gameGrid.appendChild(card);
     });
-
-    function abrirJogo(url) {
-      menu.classList.remove('ativa');
-      areaJogo.classList.add('ativa');
-      iframeJogo.src = url;
-    }
   </script>
 
 </body>
